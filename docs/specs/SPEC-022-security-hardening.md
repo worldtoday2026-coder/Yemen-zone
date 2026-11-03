@@ -1,5 +1,5 @@
 ---
-status: in_progress
+status: blocked
 canonical: false
 priority: 1
 area: security
@@ -34,7 +34,9 @@ last_updated: 2026-11-03
 - 2026-11-03: `bun install --frozen-lockfile` installed 2216 packages successfully.
 - 2026-11-03: `bun run lint` completed with 0 errors and 2192 warnings.
 - 2026-11-03: `bun run build` completed successfully with 13/13 tasks passing in 1m43s.
+- 2026-11-03: Focused unit verification passed: 5 suites and 51 tests covering route permissions, permission middleware, cart credit allocation, payout validators, and payout amounts.
+- 2026-11-03: Focused HTTP verification is blocked by missing PostgreSQL service. Six selected suites reached bootstrap but failed while creating temporary databases with `AggregateError`; no application assertions were counted as passing. Redis used the test fake because no Redis service is installed.
 
 ## Notes
 
-The source fork did not contain tracked `docs/specs/` files because its `.gitignore` excluded that directory. This file is now tracked so the active workstream and evidence remain available to the next contributor.
+The source fork did not contain tracked `docs/specs/` files because its `.gitignore` excluded that directory. This file is now tracked so the active workstream and evidence remain available to the next contributor. The spec remains `blocked` until PostgreSQL-backed HTTP verification runs; the build and focused unit checks are green.

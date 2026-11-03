@@ -16,11 +16,13 @@ This file is the durable, repository-tracked handoff for the active continuation
 - Installed 2216 packages successfully with `bun install --frozen-lockfile`.
 - `bun run lint` completed with 0 errors and 2192 warnings across the inherited codebase.
 - `bun run build` completed successfully: 13/13 tasks passed in 1m43s.
+- Focused unit verification passed: 5 suites and 51 tests covering route permissions, permission middleware, cart credit allocation, payout validators, and payout amounts.
 
 ### In progress
 
 - Run focused security regression suites.
 - Review any focused-suite failures against the inherited commits.
+- Resolve the environment prerequisites for HTTP integration tests, then rerun the seller, upload, and cart suites.
 
 ### Not started
 
@@ -32,7 +34,9 @@ This file is the durable, repository-tracked handoff for the active continuation
 - The fork's prior local `docs/specs/` tracker was explicitly ignored and was not present after cloning; the missing local-only specs cannot be recovered from the fork history.
 - The working branch is based on the latest upstream security-hardening branch rather than the fork's stale `main`; this is intentional and is recorded in the plan for review.
 - PostgreSQL/Redis availability may limit integration tests in the sandbox; record the exact failure rather than treating an unrun suite as passing.
+- The focused HTTP run reached test bootstrap but could not create its temporary PostgreSQL databases (`AggregateError` from TCP connection attempts); six suites failed before exercising application assertions. Redis fell back to the test fake because no Redis service is installed.
+- The first unit run exposed Bun isolated-linker resolution for `@swc/jest`; rerunning with `NODE_PATH` pointing at `integration-tests/node_modules` passed without repository changes.
 
 ### Next checkpoint
 
-Run focused seller, cart, upload, payout, and admin lifecycle suites, then record the exact results here.
+Provide PostgreSQL (and optionally Redis), rerun the focused seller, cart, upload, payout, and admin lifecycle suites, then record the exact results here.
