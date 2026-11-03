@@ -20,23 +20,24 @@ This file is the durable, repository-tracked handoff for the active continuation
 
 ### In progress
 
-- Run focused security regression suites.
-- Review any focused-suite failures against the inherited commits.
-- Resolve the environment prerequisites for HTTP integration tests, then rerun the seller, upload, and cart suites.
+- No functional follow-up remains in this security workstream.
 
 ### Not started
 
 - No functional code changes have been made in this continuation.
-- No task is marked passing until its verification evidence is recorded.
+- Security verification is passing with the evidence below.
 
 ### Risks / blockers
 
 - The fork's prior local `docs/specs/` tracker was explicitly ignored and was not present after cloning; the missing local-only specs cannot be recovered from the fork history.
 - The working branch is based on the latest upstream security-hardening branch rather than the fork's stale `main`; this is intentional and is recorded in the plan for review.
-- PostgreSQL/Redis availability may limit integration tests in the sandbox; record the exact failure rather than treating an unrun suite as passing.
-- The focused HTTP run reached test bootstrap but could not create its temporary PostgreSQL databases (`AggregateError` from TCP connection attempts); six suites failed before exercising application assertions. Redis fell back to the test fake because no Redis service is installed.
 - The first unit run exposed Bun isolated-linker resolution for `@swc/jest`; rerunning with `NODE_PATH` pointing at `integration-tests/node_modules` passed without repository changes.
+- HTTP tests require Node `>=24.9` for Jest's synchronous ESM VM support. They passed on Node `24.22.1` with PostgreSQL 16.15 at `localhost:5432`; Redis was not installed and the test fake was used.
 
 ### Next checkpoint
 
-Provide PostgreSQL (and optionally Redis), rerun the focused seller, cart, upload, payout, and admin lifecycle suites, then record the exact results here.
+Next contributor should start from this pushed branch and preserve the recorded Node/PostgreSQL test prerequisites before beginning a new workstream.
+
+## Verification evidence
+
+On 2026-11-03, `bun install --frozen-lockfile` installed 2216 packages, `bun run lint` completed with 0 errors and 2192 warnings, and `bun run build` completed with 13/13 tasks passing in 1m43s. Focused unit verification passed 5 suites and 51 tests. Focused HTTP verification passed 6 suites and 126 tests, with 1 test skipped, covering seller member/seller routes, uploads, and cart behavior.
