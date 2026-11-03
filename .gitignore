@@ -42,9 +42,6 @@ apps/backend/.medusa
 integration-tests/.medusa
 packages/modules/*
 
-# Local spec tracker (not versioned)
-docs/specs/
-
 # scripts/stripe-listen.sh logs and .env backup
 .stripe/
 .env.bak
